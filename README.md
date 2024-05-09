@@ -1,17 +1,23 @@
-#TicTacToe/Jogo da Velha
+# TicTacToe
 
-##Description
+This project was created as a study of Tkinter and graphical interface in general.
 
-This project was created in one day with the purpose of serving as a study of Tkinter and graphical interface in general.
+### How to play:
 
-You play using your mouse.
+Open the "TicTacToe.exe" file in the project folder.
+
+The game is played using a mouse/trackpad.
 
 Have fun!
 
-##Descrição
+# Jogo da Velha
 
-Esse projeto foi criado em apenas um dia com o propósito de servir como um estudo de Tkinter e interface gráfica em geral.
+Esse projeto foi criado como um estudo de Tkinter e interface gráfica em geral.
 
-Você joga usando o mouse.
+### Como jogar:
+
+Abra o arquivo "TicTacToe.exe" na pasta do projeto.
+
+O jogo é jogado usando um mouse/trackpad.
 
 Divirta-se!
