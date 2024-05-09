@@ -5,7 +5,7 @@ from colorHandler import *
 from tkinter import Frame, Label, IntVar, BooleanVar, Menu
 
 #Game Window
-window = createWindow("Tic-Tac-Toe", 900, 900)
+window = createWindow("TicTacToe - by thelunacodes", 900, 900)
 
 #Game Variables
 isDarkTheme = BooleanVar(value=False)

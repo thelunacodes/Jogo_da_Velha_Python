@@ -1,37 +1,37 @@
 from colorHandler import *
 from tkinter import Label, Frame, IntVar, BooleanVar, Tk
 
-def gameTurn(r:int, c:int, frame:Frame, turnNumber:IntVar, turnLabel:Label, infoLabel:Label, gameRunning:BooleanVar):
+def turnoJogo(r:int, c:int, frame:Frame, turnNumber:IntVar, turnLabel:Label, infoLabel:Label, gameRunning:BooleanVar):
     if gameRunning.get():
-        #Check if the grid cell isn't occupied
+        #Verificar se a célula não está ocupada
         if frame.grid_slaves(row=r, column=c)[0].cget("text") != " ":
-            infoLabel.config(text="This cell is already occupied!")
+            infoLabel.config(text="Essa célula já está ocupada!")
         else:
-            #Change Label text
+            #Mudar o texto da label
             frame.grid_slaves(row=r, column=c)[0].config(text="X" if turnNumber.get() % 2 == 0 else "O")
             infoLabel.config(text="")
-            #Check if player has won
+            #Verificar se o jogador venceu
             if playerWon(frame, "X" if turnNumber.get() % 2 == 0 else "O"):
-                infoLabel.config(text="{} HAS WON!".format("X" if turnNumber.get() % 2 == 0 else "O"))
+                infoLabel.config(text="{} venceu!".format("X" if turnNumber.get() % 2 == 0 else "O"))
                 gameRunning.set(False)
                 return
             else:
-                #End the game if the grid is full
+                #Encerrar o jogo se o tabuleiro ficar cheio 
                 if gridIsFull(frame):
-                    infoLabel.config(text="No one won!")
+                    infoLabel.config(text="Deu velha!")
                     gameRunning.set(False)
                     return
                 else:
-                    #Increase turnNumber value
+                    #Incrementar o valor do turno
                     turnNumber.set(turnNumber.get() + 1)
-                    #Update turnLabel's text
-                    turnLabel.config(text="{}'s turn".format("X" if turnNumber.get() % 2 == 0 else "O"))
+                    #Atualizar o texto de turnLabel
+                    turnLabel.config(text="Turno de {}".format("X" if turnNumber.get() % 2 == 0 else "O"))
     else:
         pass
     
 def loadGame(frame:Frame, padSize:int, turnNumber:IntVar, turnLabel:Label, infoLabel:Label, gameRunning:BooleanVar,isDarkTheme:BooleanVar):
     
-    #List with padding values (padx(left,right),pady(top,bottom))
+    #Lista com os valores do padding(padx(esquerda,direita),pady(cima,baixo))
     paddingSizeList = [[padSize,0,padSize,padSize], 
                        [padSize,padSize,padSize,padSize],
                        [0,padSize,padSize,padSize],
@@ -43,10 +43,10 @@ def loadGame(frame:Frame, padSize:int, turnNumber:IntVar, turnLabel:Label, infoL
                        [0,padSize,padSize,padSize]]    
     for r in range(3):
         for c in range(3):
-            #"Index" for the label 
+            #"Index" do label
             labelIndex = r * 3 + c
             
-            #Cell Label
+            #Label da célula
             TTT_Label = Label(frame, 
                               text=" ",
                               background=getLabelBackgroundColor(isDarkTheme),
@@ -59,8 +59,8 @@ def loadGame(frame:Frame, padSize:int, turnNumber:IntVar, turnLabel:Label, infoL
                                  paddingSizeList[labelIndex][1]),
                            pady=(paddingSizeList[labelIndex][2],
                                  paddingSizeList[labelIndex][3]))
-            #Check if user clicked one of the labels
-            TTT_Label.bind("<Button-1>", lambda event, row=r, col=c: gameTurn(row, 
+            #Verificar se o usuário clicou em um dos labels
+            TTT_Label.bind("<Button-1>", lambda event, row=r, col=c: turnoJogo(row, 
                                                                               col, 
                                                                               frame,
                                                                               turnNumber,
@@ -69,21 +69,21 @@ def loadGame(frame:Frame, padSize:int, turnNumber:IntVar, turnLabel:Label, infoL
                                                                               gameRunning))
             
 def playerWon(frame:Frame, symbol:str):
-    #Horizontal check
+    #Verificação vertical
     for h in range(3):
         if frame.grid_slaves(row=h, column=0)[0].cget("text") == symbol and frame.grid_slaves(row=h, column=1)[0].cget("text") == symbol and frame.grid_slaves(row=h, column=2)[0].cget("text") == symbol:
             return True
 
-    #Horizontal check
+    #Verificação horizontal
     for v in range(3):
         if frame.grid_slaves(row=0, column=v)[0].cget("text") == symbol and frame.grid_slaves(row=1, column=v)[0].cget("text") == symbol and frame.grid_slaves(row=2, column=v)[0].cget("text") == symbol:
             return True
 
-    #Diagonal check left
+    #Verificação diagonal (esquerda)
     if frame.grid_slaves(row=0, column=0)[0].cget("text") == symbol and frame.grid_slaves(row=1, column=1)[0].cget("text") == symbol and frame.grid_slaves(row=2, column=2)[0].cget("text") == symbol:
             return True
     
-    #Diagonal check right
+    #Verificação diagonal (direita)
     if frame.grid_slaves(row=0, column=2)[0].cget("text") == symbol and frame.grid_slaves(row=1, column=1)[0].cget("text") == symbol and frame.grid_slaves(row=2, column=0)[0].cget("text") == symbol:
             return True
     
@@ -97,42 +97,42 @@ def gridIsFull(frame:Frame):
     return True
 
 def resetGame(frame:Frame, turnNumber:IntVar, TTT_Turn_Label:Label, TTT_Info_Label:Label, gameRunning:BooleanVar):
-    #Reset Grid
+    #Resetar tabuleiro
     for r in range(3):
         for c in range(3):
             frame.grid_slaves(row=r, column=c)[0].config(text=" ")
             turnNumber.set(0)
     
-    #Reset TTT_Turn_Label text
-    TTT_Turn_Label.config(text="{}'s turn".format("X" if turnNumber.get() % 2 == 0 else "O"))
+    #Tesetar o texto do TTT_Turn_Label
+    TTT_Turn_Label.config(text="Turno de {}".format("X" if turnNumber.get() % 2 == 0 else "O"))
 
-    #Reset TTT_Info_Label text
+    #Resetar o texto do TTT_Info_Label
     TTT_Info_Label.config(text="")
 
-    #Reset gameRunning value
+    #Resetar o valor de gameRunning 
     gameRunning.set(True)
 
 def changeTheme(isDarkTheme:BooleanVar, window:Tk, TTT_Turn_Label:Label, TTT_Info_Label:Label, TTT_Grid_Frame:Frame):
-    #Change isDarkTheme
+    #Mudar o valor de isDarkTheme
     isDarkTheme.set(not isDarkTheme.get())
 
-    #Change padding color
+    #Mudar a cor do padding
     TTT_Grid_Frame.config(background=getPadColor(isDarkTheme))
 
-    #Change Window background color 
+    #Mudar a cor do fundo da janela
     window.config(background=getBackgroundColor(isDarkTheme))
     
-    #Change TTT_Label font color and background color
+    #Mudar a cor de fonte e de fundo do TTT_Label
     for r in range(3):
         for c in range(3):
             TTT_Grid_Frame.grid_slaves(row=r, column=c)[0].config(fg=getFontColor(isDarkTheme),
                                                                   background=getLabelBackgroundColor(isDarkTheme))
 
-    #Change TTT_Turn_Label font color and background color
+    #Mudar a cor de fonte e de fundo do TTT_Turn_Label
     TTT_Turn_Label.config(fg=getFontColor(isDarkTheme),
                           background=getBackgroundColor(isDarkTheme))
 
-    #Change TTT_Info_Label font color and background color
+    #Mudar a cor de fonte e de fundo do TTT_Info_Label
     TTT_Info_Label.config(fg=getFontColor(isDarkTheme),
                           background=getBackgroundColor(isDarkTheme))
 
