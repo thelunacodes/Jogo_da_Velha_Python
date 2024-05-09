@@ -3,6 +3,7 @@ from tkinter import Tk
 def createWindow(title:str, width:int, height:int):
     window = Tk()
     window.title(title)
+    window.state("zoomed")
 
     screen_width = window.winfo_screenwidth()
     screen_height = window.winfo_screenheight()
