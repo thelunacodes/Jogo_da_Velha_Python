@@ -10,6 +10,8 @@ O jogo é jogado usando um **mouse/trackpad**.
 
 Divirta-se!
 
+**Aviso:** Por causa de um falso positivo, o arquivo executável pode ser classificado como "suspeito".
+
 # TicTacToe
 
 This project was created as a study of Tkinter and graphical interface in general.
@@ -22,3 +24,4 @@ The game is played using a **mouse/trackpad**.
 
 Have fun!
 
+**Warning:** Because of a false positive, the executable file can be classified as "suspicious".
